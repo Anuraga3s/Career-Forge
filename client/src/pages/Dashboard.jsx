@@ -17,7 +17,7 @@ export default function Dashboard() {
   try {
     const token = localStorage.getItem("token");
 
-    console.log("Manual token:", token);
+    //console.log("Manual token:", token);
 
     const response = await api.get(
       "/dashboard/summary",

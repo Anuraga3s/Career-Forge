@@ -52,10 +52,10 @@ exports.generateQuizByRoadmap = (
     return [];
   }
 
-  console.log(
-    "QUIZ SERVICE ROADMAP:",
-    roadmap
-  );
+  //console.log(
+  //  "QUIZ SERVICE ROADMAP:",
+  //  roadmap
+  //);
 
   Object.keys(roadmap).forEach(
     (subject) => {

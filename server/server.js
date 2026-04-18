@@ -4,15 +4,6 @@ const dotenv = require("dotenv");
 const connectDB = require("./src/config/db");
 
 dotenv.config();
-
-console.log("🚀 Starting server...");
-console.log("Environment:", {
-    PORT: process.env.PORT,
-    NODE_ENV: process.env.NODE_ENV || "development",
-    CLIENT_URL: process.env.CLIENT_URL,
-    MONGO_CONNECTED: process.env.MONGO_URI ? "Yes" : "No"
-});
-
 connectDB();
 const app = express();
 
@@ -55,6 +46,6 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
     console.log(`✅ Server running on port ${PORT}`);
-    console.log(`📍 API available at http://localhost:${PORT}`);
+    //console.log(`📍 API available at http://localhost:${PORT}`);
     console.log(`🔗 Client URL: ${process.env.CLIENT_URL || 'http://localhost:5173'}`);
 });

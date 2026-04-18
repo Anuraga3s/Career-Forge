@@ -1,0 +1,25 @@
+/* Global styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100vh;
+  background: #0b1120;
+  color: white;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Smooth transitions for 3D effects */
+button, 
+div[style*="cursor: pointer"],
+[role="button"] {
+    transition: box-shadow 0.3s ease, transform 0.3s ease, background 0.3s ease;
+}

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import BrandCard from "../components/BrandCard";
 import api from "../services/api";
 
 export default function Signup() {
@@ -27,7 +28,9 @@ export default function Signup() {
 
   return (
     <div style={pageStyle}>
-      <div style={cardStyle}>
+      <div style={authShellStyle}>
+        <BrandCard maxWidth="380px" />
+        <div style={cardStyle}>
         <h1>Signup</h1>
 
         <input
@@ -83,22 +86,32 @@ export default function Signup() {
           Already have account?{" "}
           <Link to="/login">Login</Link>
         </p>
+        </div>
       </div>
     </div>
   );
 }
 
 const pageStyle = {
-  height: "100vh",
+  minHeight: "100vh",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
   background: "#0b1120",
   overflow: "hidden",
+  padding: "24px",
+  boxSizing: "border-box",
+};
+
+const authShellStyle = {
+  width: "100%",
+  maxWidth: "380px",
+  display: "grid",
+  gap: "18px",
 };
 
 const cardStyle = {
-  width: "380px",
+  width: "100%",
   padding: "30px",
   borderRadius: "20px",
   background: "#1e293b",
@@ -108,6 +121,7 @@ const cardStyle = {
   backdropFilter: "blur(12px)",
   position: "relative",
   transform: "translateZ(20px)",
+  boxSizing: "border-box",
 };
 
 const inputStyle = {

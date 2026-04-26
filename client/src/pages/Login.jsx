@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import BrandCard from "../components/BrandCard";
+import GoogleAuthButton from "../components/GoogleAuthButton";
 import api from "../services/api";
 
 export default function Login() {
@@ -38,57 +39,74 @@ export default function Login() {
     }
   };
 
+  const handleGoogleSuccess = (data) => {
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
+    navigate("/");
+  };
+
   return (
     <div style={pageStyle}>
       <div style={authShellStyle}>
         <BrandCard maxWidth="380px" />
         <div style={cardStyle}>
-        <h1>Login</h1>
+          <h1>Login</h1>
 
-        <input
-          placeholder="Email"
-          value={form.email}
-          onChange={(e) =>
-            setForm({
-              ...form,
-              email: e.target.value,
-            })
-          }
-          style={inputStyle}
-        />
+          <input
+            placeholder="Email"
+            value={form.email}
+            onChange={(e) =>
+              setForm({
+                ...form,
+                email: e.target.value,
+              })
+            }
+            style={inputStyle}
+          />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={(e) =>
-            setForm({
-              ...form,
-              password: e.target.value,
-            })
-          }
-          style={inputStyle}
-        />
+          <input
+            type="password"
+            placeholder="Password"
+            value={form.password}
+            onChange={(e) =>
+              setForm({
+                ...form,
+                password: e.target.value,
+              })
+            }
+            style={inputStyle}
+          />
 
-        <button
-          onClick={handleLogin}
-          style={buttonStyle}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "translateY(-4px)";
-            e.currentTarget.style.boxShadow = "0 15px 45px rgba(37, 99, 235, 0.4), 0 0 20px rgba(37, 99, 235, 0.3)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "translateY(0)";
-            e.currentTarget.style.boxShadow = "0 10px 30px rgba(37, 99, 235, 0.3), 0 0 15px rgba(37, 99, 235, 0.2)";
-          }}
-        >
-          Login
-        </button>
+          <button
+            onClick={handleLogin}
+            style={buttonStyle}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-4px)";
+              e.currentTarget.style.boxShadow = "0 15px 45px rgba(37, 99, 235, 0.4), 0 0 20px rgba(37, 99, 235, 0.3)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "0 10px 30px rgba(37, 99, 235, 0.3), 0 0 15px rgba(37, 99, 235, 0.2)";
+            }}
+          >
+            Login
+          </button>
 
-        <p>
-          Don’t have account?{" "}
-          <Link to="/signup">Signup</Link>
-        </p>
+          <div style={dividerStyle}>
+            <span style={dividerLineStyle} />
+            <span style={dividerTextStyle}>or</span>
+            <span style={dividerLineStyle} />
+          </div>
+
+          <GoogleAuthButton
+            label="Continue with Google"
+            onSuccess={handleGoogleSuccess}
+          />
+
+          <p>
+            Don’t have account?{" "}
+            <Link to="/signup">Signup</Link>
+          </p>
         </div>
       </div>
     </div>
@@ -149,4 +167,24 @@ const buttonStyle = {
   boxShadow: "0 10px 30px rgba(37, 99, 235, 0.3), 0 0 15px rgba(37, 99, 235, 0.2)",
   transition: "all 0.3s ease",
   cursor: "pointer",
+};
+
+const dividerStyle = {
+  display: "flex",
+  alignItems: "center",
+  gap: "10px",
+  marginTop: "18px",
+};
+
+const dividerLineStyle = {
+  flex: 1,
+  height: "1px",
+  background: "rgba(148, 163, 184, 0.25)",
+};
+
+const dividerTextStyle = {
+  color: "#94a3b8",
+  fontSize: "13px",
+  textTransform: "uppercase",
+  letterSpacing: "0.16em",
 };

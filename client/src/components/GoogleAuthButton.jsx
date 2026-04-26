@@ -2,6 +2,8 @@ import { useEffect, useEffectEvent, useRef, useState } from "react";
 import api from "../services/api";
 
 const GOOGLE_SCRIPT_ID = "google-identity-service";
+const GOOGLE_HANDLER_KEY = "__careerForgeGoogleHandler";
+const GOOGLE_INIT_KEY = "__careerForgeGoogleInitializedFor";
 
 function loadGoogleScript() {
   if (document.getElementById(GOOGLE_SCRIPT_ID)) {
@@ -60,10 +62,17 @@ export default function GoogleAuthButton({ label = "Continue with Google", onSuc
           return;
         }
 
-        window.google.accounts.id.initialize({
-          client_id: clientId,
-          callback: handleAuthSuccess,
-        });
+        window[GOOGLE_HANDLER_KEY] = handleAuthSuccess;
+
+        if (window[GOOGLE_INIT_KEY] !== clientId) {
+          window.google.accounts.id.initialize({
+            client_id: clientId,
+            callback: (response) => {
+              window[GOOGLE_HANDLER_KEY]?.(response);
+            },
+          });
+          window[GOOGLE_INIT_KEY] = clientId;
+        }
 
         buttonRef.current.innerHTML = "";
         window.google.accounts.id.renderButton(buttonRef.current, {

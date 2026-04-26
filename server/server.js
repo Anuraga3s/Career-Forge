@@ -7,10 +7,41 @@ dotenv.config();
 connectDB();
 const app = express();
 
+const configuredOrigins = (process.env.CLIENT_URL || "http://localhost:5173")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+const isAllowedOrigin = (origin) => {
+  if (!origin) {
+    return true;
+  }
+
+  if (configuredOrigins.includes(origin)) {
+    return true;
+  }
+
+  if (/^https:\/\/.*\.vercel\.app$/.test(origin)) {
+    return true;
+  }
+
+  if (/^http:\/\/localhost:\d+$/.test(origin)) {
+    return true;
+  }
+
+  return false;
+};
+
 
 app.use(
     cors({
-        origin: process.env.CLIENT_URL || "http://localhost:5173",
+        origin(origin, callback) {
+            if (isAllowedOrigin(origin)) {
+                return callback(null, true);
+            }
+
+            return callback(new Error(`CORS blocked for origin: ${origin}`));
+        },
         credentials: true
     })
 );
@@ -47,5 +78,5 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`✅ Server running on port ${PORT}`);
     //console.log(`📍 API available at http://localhost:${PORT}`);
-    console.log(`🔗 Client URL: ${process.env.CLIENT_URL || 'http://localhost:5173'}`);
+    console.log(`🔗 Client URL(s): ${configuredOrigins.join(", ")}`);
 });
